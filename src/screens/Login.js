@@ -1,12 +1,11 @@
 import styled from "styled-components";
 import {
-  faFacebook,
-  faFacebookF,
   faFacebookSquare,
   faInstagram,
 } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
+import routes from "../routes";
 
 const Container = styled.div`
   display: flex;
@@ -134,7 +133,7 @@ function Login() {
         </TopBox>
         <BottomBox>
           <span>Don't have an account?</span>
-          <Link href="#">Sign up</Link>
+          <Link to={routes.signUp}>Sign up</Link>
         </BottomBox>
       </Wrapper>
     </Container>
