@@ -6,6 +6,7 @@ import BottomBox from "../components/auth/BottomBox";
 import Button from "../components/auth/Button";
 import FormBox from "../components/auth/FormBox";
 import Input from "../components/auth/Input";
+import PageTitle from "../components/PageTitle";
 import { FatLink } from "../components/shared";
 import routes from "../routes";
 
@@ -14,16 +15,15 @@ const HeaderContainer = styled.div`
   flex-direction: column;
   align-items: center;
 `;
-
 const Subtitle = styled(FatLink)`
   font-size: 16px;
   text-align: center;
   margin-top: 10px;
 `;
-
-function SignUp() {
+function SingUp() {
   return (
     <AuthLayout>
+      <PageTitle title="Sign up" />
       <FormBox>
         <HeaderContainer>
           <FontAwesomeIcon icon={faInstagram} size="3x" />
@@ -43,5 +43,4 @@ function SignUp() {
     </AuthLayout>
   );
 }
-
-export default SignUp;
+export default SingUp;
