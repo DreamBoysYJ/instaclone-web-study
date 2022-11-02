@@ -21,16 +21,18 @@ function App() {
   const darkMode = useReactiveVar(darkModeVar);
 
   return (
-    <Router>
-      <Switch>
-        <Route path="/" exact>
-          {isLoggedIn ? <Home /> : <Login />}
-        </Route>
-        <Route>
-          <NotFound />
-        </Route>
-      </Switch>
-    </Router>
+    <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
+      <Router>
+        <Switch>
+          <Route path="/" exact>
+            {isLoggedIn ? <Home /> : <Login />}
+          </Route>
+          <Route>
+            <NotFound />
+          </Route>
+        </Switch>
+      </Router>
+    </ThemeProvider>
   );
 }
 
