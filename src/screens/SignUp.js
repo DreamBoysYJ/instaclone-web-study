@@ -1,5 +1,8 @@
+import { gql, useMutation } from "@apollo/client";
 import { faInstagram } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useForm } from "react-hook-form";
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import AuthLayout from "../components/auth/AuthLayout";
 import BottomBox from "../components/auth/BottomBox";
@@ -20,7 +23,58 @@ const Subtitle = styled(FatLink)`
   text-align: center;
   margin-top: 10px;
 `;
-function SingUp() {
+
+const CREATE_ACCOUNT_MUTATION = gql`
+  mutation createAccount(
+    $firstName: String!
+    $lastName: String
+    $username: String!
+    $email: String!
+    $password: String!
+  ) {
+    createAccount(
+      firstName: $firstName
+      lastName: $lastName
+      username: $username
+      email: $email
+      password: $password
+    ) {
+      ok
+      error
+    }
+  }
+`;
+
+function SignUp() {
+  const history = useHistory();
+  const onCompleted = (data) => {
+    const { username, password } = getValues();
+    const {
+      createAccount: { ok },
+    } = data;
+    if (!ok) {
+      return;
+    }
+    history.push(routes.home, {
+      message: "Account created. Please log in",
+      username,
+      password,
+    });
+  };
+  const [createAccount, { loading }] = useMutation(CREATE_ACCOUNT_MUTATION, {
+    onCompleted,
+  });
+  const { register, handleSubmit, formState, getValues } = useForm({
+    mode: "onBlur",
+  });
+
+  const onSubmitValid = (data) => {
+    if (loading) {
+      return;
+    }
+    createAccount({ variables: { ...data } });
+  };
+
   return (
     <AuthLayout>
       <PageTitle title="Sign up" />
@@ -31,11 +85,43 @@ function SingUp() {
             Sign up to see photos and videos from your friends.
           </Subtitle>
         </HeaderContainer>
-        <form>
-          <Input type="text" placeholder="Name" />
-          <Input type="text" placeholder="Email" />
-          <Input type="text" placeholder="Username" />
-          <Input type="password" placeholder="Password" />
+        <form onSubmit={handleSubmit(onSubmitValid)}>
+          <Input
+            type="text"
+            placeholder="First Name"
+            name="firstName"
+            {...register("firstName", {
+              required: "firstName is required",
+            })}
+          />
+          <Input
+            type="text"
+            placeholder="Last Name"
+            name="lastName"
+            {...register("lastName")}
+          />
+          <Input
+            type="text"
+            placeholder="Email"
+            name="email"
+            {...register("email", { required: "email is required" })}
+          />
+          <Input
+            type="text"
+            placeholder="Username"
+            name="username"
+            {...register("username", {
+              required: "Username is required",
+            })}
+          />
+          <Input
+            type="password"
+            placeholder="Password"
+            {...register("password", {
+              required: "Password is required",
+            })}
+            name="password"
+          />
           <Button type="submit" value="Sign up" />
         </form>
       </FormBox>
@@ -43,4 +129,4 @@ function SingUp() {
     </AuthLayout>
   );
 }
-export default SingUp;
+export default SignUp;
