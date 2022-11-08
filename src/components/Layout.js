@@ -6,6 +6,7 @@ const Content = styled.main`
   margin-top: 45px;
   max-width: 930px;
   width: 100%;
+  background-color: tomato;
 `;
 
 function Layout({ children }) {
