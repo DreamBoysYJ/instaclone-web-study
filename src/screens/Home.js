@@ -1,7 +1,6 @@
 import { gql, useQuery } from "@apollo/client";
-import styled from "styled-components";
-import { FatText } from "../components/shared";
-import Avatar from "../components/Avatar";
+import PageTitle from "../components/PageTitle";
+import Photo from "../components/feed/Photo";
 
 const FEED_QUERY = gql`
   query seeFeed {
@@ -17,24 +16,9 @@ const FEED_QUERY = gql`
       comments
       createdAt
       isMine
+      isLiked
     }
   }
-`;
-
-const PhotoContainer = styled.div`
-  background-color: white;
-  border: 1px solid ${(props) => props.theme.borderColor};
-  margin-bottom: 20px;
-`;
-
-const PhotoHeader = styled.div`
-  padding: 5px 10px;
-  display: flex;
-  align-items: center;
-`;
-
-const Username = styled(FatText)`
-  margin-left: 5px;
 `;
 
 function Home() {
@@ -42,13 +26,9 @@ function Home() {
 
   return (
     <div>
+      <PageTitle title="Home" />
       {data?.seeFeed?.map((photo) => (
-        <PhotoContainer key={photo.id}>
-          <PhotoHeader>
-            <Avatar url={photo.user.avatar} />
-            <Username>{photo.user.username}</Username>
-          </PhotoHeader>
-        </PhotoContainer>
+        <Photo key={photo.id} {...photo} />
       ))}
     </div>
   );
