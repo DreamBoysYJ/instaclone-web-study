@@ -1,11 +1,10 @@
 import { gql, useQuery } from "@apollo/client";
-import { useParams } from "react-router-dom";
-import { PHOTO_FRAGMENT } from "../fragments";
-
 import { faHeart, faComment } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { FatText } from "../components/shared";
+import { PHOTO_FRAGMENT } from "../fragments";
 
 const SEE_PROFILE_QUERY = gql`
   query seeProfile($username: String!) {
@@ -102,7 +101,12 @@ const Icon = styled.span`
 
 function Profile() {
   const { username } = useParams();
-  const { data } = useQuery(SEE_PROFILE_QUERY, { variables: { username } });
+  const { data } = useQuery(SEE_PROFILE_QUERY, {
+    variables: {
+      username,
+    },
+  });
+
   return (
     <div>
       <Header>

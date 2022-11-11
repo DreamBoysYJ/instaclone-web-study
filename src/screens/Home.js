@@ -11,16 +11,15 @@ const FEED_QUERY = gql`
         username
         avatar
       }
-     
+
       caption
 
       comments {
-
+        ...CommentFragment
       }
-      
+
       createdAt
       isMine
-      
     }
   }
 
